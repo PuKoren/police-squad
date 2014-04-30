@@ -44,7 +44,7 @@ public class SquadManagerScript : MonoBehaviour {
 	{
 		if(currentCop != null)
 		{
-			GameObject direction = (GameObject)Instantiate(Resources.Load("DirectionPoint"));
+			GameObject direction = (GameObject)Instantiate(Resources.Load("Prefabs/DirectionPoint"));
 			
 			direction.transform.position = destination;
 			
