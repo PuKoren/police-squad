@@ -22,7 +22,7 @@ public class GroundScript : MonoBehaviour {
 	
 	void OnMouseOver()
 	{
-	
+		// Get the right click, and if a cop is selected the click of the moouse will determine the next destination for the cop
 		if(Input.GetMouseButtonDown(rightButton))
 		{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -38,6 +38,7 @@ public class GroundScript : MonoBehaviour {
 			}
 		}
 		
+		// Unselect a cop if one is selected
 		if(Input.GetMouseButtonDown(leftButton))
 		{
 			squad.GetComponent<SquadManagerScript>().unselectCop();

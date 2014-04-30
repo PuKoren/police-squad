@@ -25,39 +25,46 @@ public class SquadManagerScript : MonoBehaviour {
 	
 	}
 	
+	// Change the selected cop
 	public void switchCurrentCop(PolicemanScript cop)
 	{
 		int i;
 		
 		currentCop = cop.gameObject;
 		
+		// Unselect the cops
 		for(i = 0; i < 5; ++i)
 		{
 			if(listOfCops[i] != currentCop)
 				listOfCops[i].GetComponent<PolicemanScript>().deactivate();
 		}
 		
+		// selected the wanted one
 		currentCop.GetComponent<PolicemanScript>().activate();
 	}
 	
+	// add a destination to the selected cop
 	public void setDestinationForCop(Vector3 destination)
 	{
 		if(currentCop != null)
 		{
-			GameObject direction = (GameObject)Instantiate(Resources.Load("Prefabs/DirectionPoint"));
+			// Create the checkpoint object and set its position
+			GameObject direction = (GameObject)Instantiate(Resources.Load("Prefabs/Checkpoint"));
 			
 			direction.transform.position = destination;
 			
+			// get the material of the cop
 			Material currentCopMaterial = currentCop.GetComponent<Renderer>().material;
 			
-			//Resources.Load("Materials/Blue", typeof(Material)) as Material;
-			
+			// apply the material of the cop to the checkpoint
 			direction.transform.GetChild(4).GetComponent<Renderer>().material = currentCopMaterial;
 			
-			currentCop.GetComponent<NavMeshScript>().setTarget(direction);
+			// add the destination as a target to the cop
+			currentCop.GetComponent<NavMeshScript>().addTarget(direction);
 		}
 	}
 	
+	// unselected all cops
 	public void unselectCop()
 	{
 		int i;
