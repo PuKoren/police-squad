@@ -21,8 +21,7 @@ public class PolicemanScript : MonoBehaviour {
 	
 	void OnMouseDown()
 	{
-		// Tell the squad object (parent) to select this object
-		this.transform.parent.GetComponent<SquadManagerScript>().switchCurrentCop(this);
+		this.SelectUnit();
 	}
 	
 	public void activate()
@@ -35,5 +34,10 @@ public class PolicemanScript : MonoBehaviour {
 	{
 		// deactivate the torus scale changing
 		this.transform.GetChild(2).GetComponent<LoopScaleScript>().deactivate();
+	}
+
+	public void SelectUnit() {
+		// Tell the squad object (parent) to select this object
+		this.transform.parent.GetComponent<SquadManagerScript>().switchCurrentCop(this);
 	}
 }

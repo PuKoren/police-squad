@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 984a67ca5a5444542ab9ac01f64272c3
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - skin: {fileID: 11400000, guid: 8bcc9c82813443d409f650fb87377bb7, type: 2}
+  - copImg: {fileID: 2800000, guid: b08bb8284c6467145b0be243db2e4669, type: 3}
+  - healthBarDarkTex: {fileID: 2800000, guid: 8066ce306658d4575ae6b63f88d77836, type: 3}
+  - healthBarTex: {fileID: 2800000, guid: 69ff63a772aa79c42b07943b9b956291, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
