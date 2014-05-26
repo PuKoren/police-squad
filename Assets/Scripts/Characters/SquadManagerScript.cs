@@ -4,7 +4,10 @@ using System.Collections;
 public class SquadManagerScript : MonoBehaviour {
 
 	private GameObject[] listOfCops = new GameObject[5];
+	private int[] listOfActions = new int[5];
 	private GameObject currentCop;
+	public int nbActionsPerTurn = 2;
+	private int currentCopIndex;
 	
 	// Use this for initialization
 	void Start () {
@@ -14,6 +17,7 @@ public class SquadManagerScript : MonoBehaviour {
 		for(i = 0; i < 5; ++i)
 		{
 			listOfCops[i] = this.transform.GetChild(i).gameObject;
+			listOfActions[i] = 0;
 		}
 		
 		currentCop = null;
@@ -37,6 +41,8 @@ public class SquadManagerScript : MonoBehaviour {
 		{
 			if(listOfCops[i] != currentCop)
 				listOfCops[i].GetComponent<PolicemanScript>().deactivate();
+			else 
+				currentCopIndex = i;
 		}
 		
 		// selected the wanted one
@@ -46,7 +52,7 @@ public class SquadManagerScript : MonoBehaviour {
 	// add a destination to the selected cop
 	public void setDestinationForCop(Vector3 destination)
 	{
-		if(currentCop != null)
+		if(currentCop != null && listOfActions[currentCopIndex] < nbActionsPerTurn)
 		{
 			// Create the checkpoint object and set its position
 			GameObject direction = (GameObject)Instantiate(Resources.Load("Prefabs/Checkpoint"));
@@ -61,6 +67,8 @@ public class SquadManagerScript : MonoBehaviour {
 			
 			// add the destination as a target to the cop
 			currentCop.GetComponent<NavMeshScript>().addTarget(direction);
+			
+			++listOfActions[currentCopIndex];
 		}
 	}
 	
