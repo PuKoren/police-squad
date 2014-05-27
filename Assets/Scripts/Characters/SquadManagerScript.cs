@@ -4,10 +4,11 @@ using System.Collections;
 public class SquadManagerScript : MonoBehaviour {
 
 	private GameObject[] listOfCops = new GameObject[5];
-	private int[] listOfActions = new int[5];
+	private int[] listOfActionsCounter = new int[5];
 	private GameObject currentCop;
 	public int nbActionsPerTurn = 2;
 	private int currentCopIndex;
+	private bool canSelectUnit;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,10 +18,12 @@ public class SquadManagerScript : MonoBehaviour {
 		for(i = 0; i < 5; ++i)
 		{
 			listOfCops[i] = this.transform.GetChild(i).gameObject;
-			listOfActions[i] = 0;
+			listOfActionsCounter[i] = 0;
 		}
 		
 		currentCop = null;
+		
+		canSelectUnit = true;
 		
 	}
 	
@@ -32,27 +35,30 @@ public class SquadManagerScript : MonoBehaviour {
 	// Change the selected cop
 	public void switchCurrentCop(PolicemanScript cop)
 	{
-		int i;
-		
-		currentCop = cop.gameObject;
-		
-		// Unselect the cops
-		for(i = 0; i < 5; ++i)
+		if(canSelectUnit)
 		{
-			if(listOfCops[i] != currentCop)
-				listOfCops[i].GetComponent<PolicemanScript>().deactivate();
-			else 
-				currentCopIndex = i;
+			int i;
+			
+			currentCop = cop.gameObject;
+			
+			// Unselect the cops
+			for(i = 0; i < 5; ++i)
+			{
+				if(listOfCops[i] != currentCop)
+					listOfCops[i].GetComponent<PolicemanScript>().deactivate();
+				else 
+					currentCopIndex = i;
+			}
+			
+			// selected the wanted one
+			currentCop.GetComponent<PolicemanScript>().activate();
 		}
-		
-		// selected the wanted one
-		currentCop.GetComponent<PolicemanScript>().activate();
 	}
 	
 	// add a destination to the selected cop
 	public void setDestinationForCop(Vector3 destination)
 	{
-		if(currentCop != null && listOfActions[currentCopIndex] < nbActionsPerTurn)
+		if(currentCop != null && listOfActionsCounter[currentCopIndex] < nbActionsPerTurn)
 		{
 			// Create the checkpoint object and set its position
 			GameObject direction = (GameObject)Instantiate(Resources.Load("Prefabs/Checkpoint"));
@@ -68,7 +74,7 @@ public class SquadManagerScript : MonoBehaviour {
 			// add the destination as a target to the cop
 			currentCop.GetComponent<NavMeshScript>().addTarget(direction);
 			
-			++listOfActions[currentCopIndex];
+			++listOfActionsCounter[currentCopIndex];
 		}
 	}
 	
@@ -83,5 +89,46 @@ public class SquadManagerScript : MonoBehaviour {
 		{
 			listOfCops[i].GetComponent<PolicemanScript>().deactivate();
 		}
+	}
+	
+	public void resetListOfActionsCounter()
+	{
+		for(int i = 0; i < listOfActionsCounter.Length ; ++i)
+		{
+			listOfActionsCounter[i] = 0;
+		}
+	}
+	
+	public void makeUnitsMove()
+	{
+		for(int i = 0; i < listOfCops.Length; ++i)
+		{
+			listOfCops[i].GetComponent<NavMeshScript>().setExecuteActions(true);
+		}
+	}
+	
+	public void makeUnitsStopMoving()
+	{
+		for(int i = 0; i < listOfCops.Length; ++i)
+		{
+			listOfCops[i].GetComponent<NavMeshScript>().setExecuteActions(false);
+		}
+	}
+	
+	public bool hasTheTeamFinishedToMove()
+	{	
+		for(int i = 0; i < listOfCops.Length; ++i)
+		{
+			if(listOfCops[i].GetComponent<NavMeshScript>().hasFinishedItsPath() == false)
+				return false;
+		}
+		
+		return true;
+		
+	}
+	
+	public void allowToSelectUnit(bool allow)
+	{
+		canSelectUnit = allow;
 	}
 }
