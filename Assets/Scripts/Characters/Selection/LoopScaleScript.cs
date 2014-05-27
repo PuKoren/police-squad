@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿/*
+SCRIPT TO CHANGE THE SCALE OF THE "SELECTION CIRCLE" ON THE CURRENT COP
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class LoopScaleScript : MonoBehaviour {

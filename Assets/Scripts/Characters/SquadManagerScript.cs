@@ -15,6 +15,7 @@ public class SquadManagerScript : MonoBehaviour {
 		
 		int i; 
 		
+		// Add all the cops to the list, and set the counter of their allowed moves (checkpoints) to 0
 		for(i = 0; i < 5; ++i)
 		{
 			listOfCops[i] = this.transform.GetChild(i).gameObject;
@@ -74,11 +75,12 @@ public class SquadManagerScript : MonoBehaviour {
 			// add the destination as a target to the cop
 			currentCop.GetComponent<NavMeshScript>().addTarget(direction);
 			
+			// Increase the current number of actions of the cop
 			++listOfActionsCounter[currentCopIndex];
 		}
 	}
 	
-	// unselected all cops
+	// unselect all cops
 	public void unselectCop()
 	{
 		int i;
@@ -91,6 +93,7 @@ public class SquadManagerScript : MonoBehaviour {
 		}
 	}
 	
+	// Re-set the counter of actions of all the cops to 0
 	public void resetListOfActionsCounter()
 	{
 		for(int i = 0; i < listOfActionsCounter.Length ; ++i)
@@ -99,6 +102,7 @@ public class SquadManagerScript : MonoBehaviour {
 		}
 	}
 	
+	// Allow the units to move if they have to
 	public void makeUnitsMove()
 	{
 		for(int i = 0; i < listOfCops.Length; ++i)
@@ -107,6 +111,7 @@ public class SquadManagerScript : MonoBehaviour {
 		}
 	}
 	
+	// Stop the units moving
 	public void makeUnitsStopMoving()
 	{
 		for(int i = 0; i < listOfCops.Length; ++i)
@@ -115,6 +120,7 @@ public class SquadManagerScript : MonoBehaviour {
 		}
 	}
 	
+	// Say if the team has finished to move, therefore all the units have done their actions (completed their paths)
 	public bool hasTheTeamFinishedToMove()
 	{	
 		for(int i = 0; i < listOfCops.Length; ++i)
@@ -127,6 +133,7 @@ public class SquadManagerScript : MonoBehaviour {
 		
 	}
 	
+	// Allow or not to select units in game
 	public void allowToSelectUnit(bool allow)
 	{
 		canSelectUnit = allow;

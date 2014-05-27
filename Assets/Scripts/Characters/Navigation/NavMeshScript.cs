@@ -49,6 +49,7 @@ public class NavMeshScript : MonoBehaviour {
 					currentTarget = null;
 				}
 				
+				// Define if the unit has reached its last checkpoint
 				if(listTarget.Count == 0)
 					hasReachedTheLastPoint = true;
 				else
@@ -59,6 +60,7 @@ public class NavMeshScript : MonoBehaviour {
 		}
 	}
 	
+	// Add a checkpoint where the unit will have to go
 	public void addTarget(GameObject pos)
 	{
 		listTarget.Add(pos.transform);
@@ -66,21 +68,25 @@ public class NavMeshScript : MonoBehaviour {
 		this.transform.GetChild(1).GetComponent<PathTracerScript>().addCheckpoint(pos);
 	}
 	
+	// Define the next checkpoint the unit has to go
 	private void setTarget()
 	{
 		currentTarget = listTarget[0];
 	}
 	
+	// Allow the unit to do its actions (moving)
 	public void setExecuteActions(bool execute)
 	{
 		executeActions = execute;
 		
+		// Define if the unit has reached its last checkpoint
 		if(listTarget.Count == 0)
 			hasReachedTheLastPoint = true;
 		else
 			hasReachedTheLastPoint = false;
 	}
 	
+	// Return if the unit has finish its path, therefore reached its last checkpoint
 	public bool hasFinishedItsPath()
 	{
 		return hasReachedTheLastPoint;

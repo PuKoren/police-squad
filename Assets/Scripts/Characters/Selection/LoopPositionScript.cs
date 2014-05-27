@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿/*
+SCRIPT FOR THE MOVING ARROWS, PART OF THE CHECKPOINT
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class LoopPositionScript : MonoBehaviour {

@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿/*
+SCRIPT TO DRAG AND DROP A CHECKPOINT
+*/
+
+using UnityEngine;
 using System.Collections;
 
 public class MoveCheckpointScript : MonoBehaviour {
