@@ -24,6 +24,8 @@ public class GameManagerScript : MonoBehaviour {
 		this.transform.GetChild(1).GetComponent<TextMesh>().text = "";
 		
 		squad = GameObject.FindGameObjectWithTag("Squad");
+		
+		squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
 	}
 	
 	// Update is called once per frame
@@ -39,10 +41,12 @@ public class GameManagerScript : MonoBehaviour {
 				- The units are allowed to move
 				- None of the units are selected
 				- It's impossible to select an unit
+				- The cops field of view are activated so they can see enemies
 			*/
 			squad.GetComponent<SquadManagerScript>().makeUnitsMove();
 			squad.GetComponent<SquadManagerScript>().unselectCop();
 			squad.GetComponent<SquadManagerScript>().allowToSelectUnit(false);
+			squad.GetComponent<SquadManagerScript>().activateCopsFieldOfView();
 			
 			displayInfo = true;
 		}
@@ -60,10 +64,12 @@ public class GameManagerScript : MonoBehaviour {
 				- The units can't move
 				- The user can select units
 				- The counters of actions per units are reset
+				- Cops field of view are deactivated, so the player can click through them
 			*/
 			squad.GetComponent<SquadManagerScript>().makeUnitsStopMoving();
 			squad.GetComponent<SquadManagerScript>().allowToSelectUnit(true);
 			squad.GetComponent<SquadManagerScript>().resetListOfActionsCounter();
+			squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
 		}
 		
 		// Display messages

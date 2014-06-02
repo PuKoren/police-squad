@@ -138,4 +138,22 @@ public class SquadManagerScript : MonoBehaviour {
 	{
 		canSelectUnit = allow;
 	}
+	
+	// Activate the view field of each cop
+	public void activateCopsFieldOfView()
+	{
+		for(int i = 0; i < listOfCops.Length; ++i)
+		{
+			listOfCops[i].transform.GetChild(0).GetComponent<MeshCollider>().enabled = true;
+		}
+	}
+	
+	// Deactivate the view field of each cop
+	public void deactivateCopsFieldOfView()
+	{
+		for(int i = 0; i < listOfCops.Length; ++i)
+		{
+			listOfCops[i].transform.GetChild(0).GetComponent<MeshCollider>().enabled = false;
+		}
+	}
 }
