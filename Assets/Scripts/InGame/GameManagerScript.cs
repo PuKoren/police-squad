@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManagerScript : MonoBehaviour {
 	
@@ -10,6 +11,7 @@ public class GameManagerScript : MonoBehaviour {
 	public int timer;
 	
 	private GameObject squad;
+    private EnemyControllerScript[] enemies;
 	
 	// Use this for initialization
 	void Start () {
@@ -24,8 +26,9 @@ public class GameManagerScript : MonoBehaviour {
 		this.transform.GetChild(1).GetComponent<TextMesh>().text = "";
 		
 		squad = GameObject.FindGameObjectWithTag("Squad");
-		
 		squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+
+        enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
 	}
 	
 	// Update is called once per frame
@@ -47,6 +50,12 @@ public class GameManagerScript : MonoBehaviour {
 			squad.GetComponent<SquadManagerScript>().unselectCop();
 			squad.GetComponent<SquadManagerScript>().allowToSelectUnit(false);
 			squad.GetComponent<SquadManagerScript>().activateCopsFieldOfView();
+
+            // Activate the actions of all enemies
+            foreach (EnemyControllerScript enemy in enemies)
+            {
+                enemy.setExecuteActions(true);
+            }
 			
 			displayInfo = true;
 		}
@@ -69,7 +78,13 @@ public class GameManagerScript : MonoBehaviour {
 			squad.GetComponent<SquadManagerScript>().makeUnitsStopMoving();
 			squad.GetComponent<SquadManagerScript>().allowToSelectUnit(true);
 			squad.GetComponent<SquadManagerScript>().resetListOfActionsCounter();
-			squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+            squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+
+            // Deactivate the actions of all enemies
+            foreach (EnemyControllerScript enemy in enemies)
+            {
+                enemy.setExecuteActions(false);
+            }
 		}
 		
 		// Display messages

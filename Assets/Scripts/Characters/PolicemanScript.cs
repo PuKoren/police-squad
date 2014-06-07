@@ -5,7 +5,8 @@ public class PolicemanScript : MonoBehaviour {
 
 	public enum colors{Blue, Green, Red, Orange, Yellow};
 	public colors visionColor;
-    public int pv = 10;
+    public int Pv = 10;
+    public GameObject BulletPrefab;
     static public int RangeRandomPercentLife = 10;
 	
 	// Use this for initialization
@@ -44,9 +45,33 @@ public class PolicemanScript : MonoBehaviour {
     public int GetRandomPV()
     {
         // Use by the enemies to know how many pv have the policeman
-        int newPV = this.pv + this.pv * Random.Range(-PolicemanScript.RangeRandomPercentLife, PolicemanScript.RangeRandomPercentLife) / 100;
+        int newPV = this.Pv + this.Pv * Random.Range(-PolicemanScript.RangeRandomPercentLife, PolicemanScript.RangeRandomPercentLife) / 100;
         if (newPV < 1)
             newPV = 1;
         return newPV;
+    }
+
+    public void Touch(int damage)
+    {
+        this.Pv -= damage;
+        if (this.Pv <= 0)
+            Destroy(this.gameObject);
+    }
+
+    // Trigger
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.tag == "Enemy")
+        {
+            EnemyControllerScript enemy = collider.gameObject.GetComponent<EnemyControllerScript>();
+
+            // Instanciate the bullet
+            GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
+            go.transform.LookAt(enemy.transform);
+            if (!enemy.isSeeingPoliceman(this))
+            {
+                go.GetComponent<BulletScript>().Damage = enemy.Pv;
+            }
+        }
     }
 }

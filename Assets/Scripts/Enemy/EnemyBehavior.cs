@@ -1,5 +1,6 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyBehavior : EnemyBehaviorTree
 {
@@ -29,7 +30,7 @@ public class EnemyBehavior : EnemyBehaviorTree
     private bool SeePoliceman_Condition(Skill.Framework.AI.BehaviorParameterCollection parameters)
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
-        if (ai.PolicemanVisible.Count == 0)
+        if (ai.GetPolicemanVisible().Count == 0)
             return false;
         else
             return true;
@@ -38,7 +39,7 @@ public class EnemyBehavior : EnemyBehaviorTree
     private bool FriendsArround_Condition(Skill.Framework.AI.BehaviorParameterCollection parameters)
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
-        if (ai.FriendsArround.Count == 0)
+        if (ai.GetFriendsArround().Count == 0)
             return false;
         else
             return true;
@@ -52,12 +53,13 @@ public class EnemyBehavior : EnemyBehaviorTree
     private bool IsLookLikePossible_Condition(Skill.Framework.AI.BehaviorParameterCollection parameters)
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
+        List<PolicemanScript> policemans = ai.GetPolicemanVisible();
         int numberPVPoliceman = 0;
-        for (int i = 0; i < ai.PolicemanVisible.Count; ++i)
+        for (int i = 0; i < policemans.Count; ++i)
         {
-            numberPVPoliceman += ai.PolicemanVisible[i].GetRandomPV();
+            numberPVPoliceman += policemans[i].GetRandomPV();
         }
-        if (numberPVPoliceman > ai.pv)
+        if (numberPVPoliceman > ai.Pv)
             return false;
         else
             return true;
@@ -71,9 +73,10 @@ public class EnemyBehavior : EnemyBehaviorTree
     private bool FriendsArroundFight_Condition(Skill.Framework.AI.BehaviorParameterCollection parameters)
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
-        for (int i = 0; i < ai.FriendsArround.Count; ++i)
+        List<EnemyControllerScript> friends = ai.GetFriendsArround();
+        for (int i = 0; i < friends.Count; ++i)
         {
-            if (ai.FriendsArround[i].IsFighting)
+            if (friends[i].GetIsFighting())
                 return true;
         }
         return false;
@@ -82,7 +85,7 @@ public class EnemyBehavior : EnemyBehaviorTree
     private bool AlreadySeePoliceman_Condition(Skill.Framework.AI.BehaviorParameterCollection parameters)
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
-        return ai.AlreadySeePoliceman;
+        return ai.GetAlreadySeePoliceman();
     }
     #endregion
 
@@ -141,11 +144,12 @@ public class EnemyBehavior : EnemyBehaviorTree
     private Skill.Framework.AI.BehaviorResult GoFriend_Action(Skill.Framework.AI.BehaviorParameterCollection parameters)
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
-        for (int i = 0; i < ai.FriendsArround.Count; ++i)
+        List<EnemyControllerScript> friends = ai.GetFriendsArround();
+        for (int i = 0; i < friends.Count; ++i)
         {
-            if (ai.FriendsArround[i].IsFighting)
+            if (friends[i].GetIsFighting())
             {
-                ai.GoToHelpFriend(ai.FriendsArround[i]);
+                ai.GoToHelpFriend(friends[i]);
                 break;
             }
         }
