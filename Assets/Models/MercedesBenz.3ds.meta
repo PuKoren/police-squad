@@ -1,0 +1,415 @@
+fileFormatVersion: 2
+guid: 980e3aaa519e88e41b35a654037efc28
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: ' 1'
+    100002: ARMATURE01
+    100004: Box02
+    100006: Camera01
+    100008: Camera01.target
+    100010: Camera02
+    100012: Camera02.target
+    100014: ChamferBox
+    100016: Covers
+    100018: Cylinder01
+    100020: Cylinder02
+    100022: Cylinder03
+    100024: Cylinder04
+    100026: Cylinder05
+    100028: Cylinder06
+    100030: Cylinder07
+    100032: Cylinder08
+    100034: Cylinder09
+    100036: Cylinder10
+    100038: Cylinder11
+    100040: Cylinder12
+    100042: Cylinder13
+    100044: Cylinder14
+    100046: Cylinder15
+    100048: Cylinder16
+    100050: Cylinder17
+    100052: Cylinder18
+    100054: Cylinder19
+    100056: Dash
+    100058: Front Left
+    100060: Front Pan
+    100062: Front Pan0
+    100064: Front Righ
+    100066: Front Seat
+    100068: FRONTFEN01
+    100070: GEP_CKKO01
+    100072: Glasses
+    100074: Glasses Ch
+    100076: Handles
+    100078: Hood
+    100080: Hood & Pi0
+    100082: Hood & Pip
+    100084: Left Light
+    100086: Lights
+    100088: Lights Tub
+    100090: Line01
+    100092: Luggage Bo
+    100094: Mercedes 0
+    100096: Mercedes B
+    100098: //RootNode
+    100100: Mesh01
+    100102: Motor Pipe
+    100104: Object01
+    100106: Object03
+    100108: Object04
+    100110: Object05
+    100112: Object06
+    100114: Object07
+    100116: Object08
+    100118: Object09
+    100120: Omni01
+    100122: Omni02
+    100124: Omni03
+    100126: Omni04
+    100128: Omni05
+    100130: PART.20
+    100132: PART.24
+    100134: PART.25
+    100136: PART.56
+    100138: PART.59
+    100140: PART.68
+    100142: PART.69
+    100144: PART.70
+    100146: PART.71
+    100148: PART.72
+    100150: Plane01
+    100152: 'Rear Left '
+    100154: Rear Right
+    100156: Rear Seat
+    100158: Reserve Le
+    100160: Reserve Ri
+    100162: Right Ligh
+    100164: Seats
+    100166: Suspension
+    100168: Top
+    100170: Top0
+    100172: Tube01
+    400000: ' 1'
+    400002: ARMATURE01
+    400004: Box02
+    400006: Camera01
+    400008: Camera01.target
+    400010: Camera02
+    400012: Camera02.target
+    400014: ChamferBox
+    400016: Covers
+    400018: Cylinder01
+    400020: Cylinder02
+    400022: Cylinder03
+    400024: Cylinder04
+    400026: Cylinder05
+    400028: Cylinder06
+    400030: Cylinder07
+    400032: Cylinder08
+    400034: Cylinder09
+    400036: Cylinder10
+    400038: Cylinder11
+    400040: Cylinder12
+    400042: Cylinder13
+    400044: Cylinder14
+    400046: Cylinder15
+    400048: Cylinder16
+    400050: Cylinder17
+    400052: Cylinder18
+    400054: Cylinder19
+    400056: Dash
+    400058: Front Left
+    400060: Front Pan
+    400062: Front Pan0
+    400064: Front Righ
+    400066: Front Seat
+    400068: FRONTFEN01
+    400070: GEP_CKKO01
+    400072: Glasses
+    400074: Glasses Ch
+    400076: Handles
+    400078: Hood
+    400080: Hood & Pi0
+    400082: Hood & Pip
+    400084: Left Light
+    400086: Lights
+    400088: Lights Tub
+    400090: Line01
+    400092: Luggage Bo
+    400094: Mercedes 0
+    400096: Mercedes B
+    400098: //RootNode
+    400100: Mesh01
+    400102: Motor Pipe
+    400104: Object01
+    400106: Object03
+    400108: Object04
+    400110: Object05
+    400112: Object06
+    400114: Object07
+    400116: Object08
+    400118: Object09
+    400120: Omni01
+    400122: Omni02
+    400124: Omni03
+    400126: Omni04
+    400128: Omni05
+    400130: PART.20
+    400132: PART.24
+    400134: PART.25
+    400136: PART.56
+    400138: PART.59
+    400140: PART.68
+    400142: PART.69
+    400144: PART.70
+    400146: PART.71
+    400148: PART.72
+    400150: Plane01
+    400152: 'Rear Left '
+    400154: Rear Right
+    400156: Rear Seat
+    400158: Reserve Le
+    400160: Reserve Ri
+    400162: Right Ligh
+    400164: Seats
+    400166: Suspension
+    400168: Top
+    400170: Top0
+    400172: Tube01
+    2300000: ' 1'
+    2300002: ARMATURE01
+    2300004: Box02
+    2300006: ChamferBox
+    2300008: Covers
+    2300010: Cylinder01
+    2300012: Cylinder02
+    2300014: Cylinder03
+    2300016: Cylinder04
+    2300018: Cylinder05
+    2300020: Cylinder06
+    2300022: Cylinder07
+    2300024: Cylinder08
+    2300026: Cylinder09
+    2300028: Cylinder10
+    2300030: Cylinder11
+    2300032: Cylinder12
+    2300034: Cylinder13
+    2300036: Cylinder14
+    2300038: Cylinder15
+    2300040: Cylinder16
+    2300042: Cylinder17
+    2300044: Cylinder18
+    2300046: Cylinder19
+    2300048: Front Seat
+    2300050: FRONTFEN01
+    2300052: GEP_CKKO01
+    2300054: Handles
+    2300056: Hood
+    2300058: Hood & Pi0
+    2300060: Left Light
+    2300062: Lights Tub
+    2300064: Line01
+    2300066: Mercedes 0
+    2300068: Mercedes B
+    2300070: Mesh01
+    2300072: Motor Pipe
+    2300074: Object01
+    2300076: Object03
+    2300078: Object04
+    2300080: Object05
+    2300082: Object06
+    2300084: Object07
+    2300086: Object08
+    2300088: Object09
+    2300090: PART.20
+    2300092: PART.24
+    2300094: PART.25
+    2300096: PART.56
+    2300098: PART.59
+    2300100: PART.68
+    2300102: PART.69
+    2300104: PART.70
+    2300106: PART.71
+    2300108: PART.72
+    2300110: Plane01
+    2300112: Rear Seat
+    2300114: Right Ligh
+    2300116: Suspension
+    2300118: Top0
+    2300120: Tube01
+    3300000: ' 1'
+    3300002: ARMATURE01
+    3300004: Box02
+    3300006: ChamferBox
+    3300008: Covers
+    3300010: Cylinder01
+    3300012: Cylinder02
+    3300014: Cylinder03
+    3300016: Cylinder04
+    3300018: Cylinder05
+    3300020: Cylinder06
+    3300022: Cylinder07
+    3300024: Cylinder08
+    3300026: Cylinder09
+    3300028: Cylinder10
+    3300030: Cylinder11
+    3300032: Cylinder12
+    3300034: Cylinder13
+    3300036: Cylinder14
+    3300038: Cylinder15
+    3300040: Cylinder16
+    3300042: Cylinder17
+    3300044: Cylinder18
+    3300046: Cylinder19
+    3300048: Front Seat
+    3300050: FRONTFEN01
+    3300052: GEP_CKKO01
+    3300054: Handles
+    3300056: Hood
+    3300058: Hood & Pi0
+    3300060: Left Light
+    3300062: Lights Tub
+    3300064: Line01
+    3300066: Mercedes 0
+    3300068: Mercedes B
+    3300070: Mesh01
+    3300072: Motor Pipe
+    3300074: Object01
+    3300076: Object03
+    3300078: Object04
+    3300080: Object05
+    3300082: Object06
+    3300084: Object07
+    3300086: Object08
+    3300088: Object09
+    3300090: PART.20
+    3300092: PART.24
+    3300094: PART.25
+    3300096: PART.56
+    3300098: PART.59
+    3300100: PART.68
+    3300102: PART.69
+    3300104: PART.70
+    3300106: PART.71
+    3300108: PART.72
+    3300110: Plane01
+    3300112: Rear Seat
+    3300114: Right Ligh
+    3300116: Suspension
+    3300118: Top0
+    3300120: Tube01
+    4300000: Suspension
+    4300002: Covers
+    4300004: Mercedes B
+    4300006: Hood
+    4300008: Cylinder02
+    4300010: PART.56
+    4300012: Object03
+    4300014: Object05
+    4300016: Cylinder04
+    4300018: PART.69
+    4300020: Object07
+    4300022: Cylinder06
+    4300024: PART.71
+    4300026: Object04
+    4300028: Cylinder03
+    4300030: PART.68
+    4300032: Object08
+    4300034: PART.72
+    4300036: Cylinder07
+    4300038: Object06
+    4300040: Cylinder05
+    4300042: PART.70
+    4300044: Mercedes 0
+    4300046: Right Ligh
+    4300048: Left Light
+    4300050: Lights Tub
+    4300052: Front Seat
+    4300054: Rear Seat
+    4300056: ChamferBox
+    4300058: Box02
+    4300060: PART.24
+    4300062: PART.25
+    4300064: GEP_CKKO01
+    4300066: FRONTFEN01
+    4300068: PART.20
+    4300070: Cylinder16
+    4300072: Cylinder15
+    4300074: Cylinder12
+    4300076: Cylinder09
+    4300078: Cylinder11
+    4300080: Cylinder08
+    4300082: ARMATURE01
+    4300084: Cylinder01
+    4300086: Cylinder14
+    4300088: Cylinder10
+    4300090: Cylinder13
+    4300092: Line01
+    4300094: Cylinder17
+    4300096: Cylinder18
+    4300098: Tube01
+    4300100: Cylinder19
+    4300102: Object09
+    4300104: Object01
+    4300106: Mesh01
+    4300108: Motor Pipe
+    4300110: Hood & Pi0
+    4300112: PART.59
+    4300114: Handles
+    4300116: Top0
+    4300120: Plane01
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
