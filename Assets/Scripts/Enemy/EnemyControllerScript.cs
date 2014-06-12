@@ -50,7 +50,7 @@ public class EnemyControllerScript : MonoBehaviour
         }
         else
         {
-            this.NavMeshAgent.SetDestination(this.transform.position);
+            this.NavMeshAgent.Stop();
         }
 	}
 
@@ -71,12 +71,15 @@ public class EnemyControllerScript : MonoBehaviour
             }
         }
 
-        // Instanciate the bullet
-        GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
-        go.transform.LookAt(policeman.transform);
+        if (policeman != null)
+        {
+            // Instanciate the bullet
+            GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
+            go.transform.LookAt(policeman.transform);
 
-        // Stop moving
-        this.NavMeshAgent.SetDestination(this.transform.position);
+            // Stop moving
+            this.NavMeshAgent.Stop();
+        }
     }
 
     public void Escape()
@@ -138,7 +141,7 @@ public class EnemyControllerScript : MonoBehaviour
         }
         return false;
     }
-    
+
     // Trigger
     void OnTriggerEnter(Collider collider)
     {

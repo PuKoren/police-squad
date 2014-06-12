@@ -42,10 +42,10 @@ public class PolicemanScript : MonoBehaviour {
 		this.transform.parent.GetComponent<SquadManagerScript>().switchCurrentCop(this);
 	}
 
-    public int GetRandomPV()
+    public float GetRandomPV()
     {
         // Use by the enemies to know how many pv have the policeman
-        int newPV = this.Pv + this.Pv * Random.Range(-PolicemanScript.RangeRandomPercentLife, PolicemanScript.RangeRandomPercentLife) / 100;
+        float newPV = this.Pv + (float)(this.Pv * Random.Range(-PolicemanScript.RangeRandomPercentLife, PolicemanScript.RangeRandomPercentLife)) / 100;
         if (newPV < 1)
             newPV = 1;
         return newPV;

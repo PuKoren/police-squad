@@ -54,7 +54,7 @@ public class EnemyBehavior : EnemyBehaviorTree
     {
         EnemyControllerScript ai = (EnemyControllerScript)UserData;
         List<PolicemanScript> policemans = ai.GetPolicemanVisible();
-        int numberPVPoliceman = 0;
+        float numberPVPoliceman = 0;
         for (int i = 0; i < policemans.Count; ++i)
         {
             numberPVPoliceman += policemans[i].GetRandomPV();
