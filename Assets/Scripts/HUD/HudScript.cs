@@ -16,9 +16,14 @@ public class HudScript : MonoBehaviour {
 	private int numberOfCops;
 	private string[] copNames = {"Fabien", "Jonathan", "Guillaume", "Christian", "M. Bismi"};
 
+    private float screenWidth;
+    private float screenHeight;
+
 	// Use this for initialization
 	void Start () {
 		this.numberOfCops = this.squad.Length;
+        this.screenWidth = Screen.width;
+        this.screenHeight = Screen.height;
 	}
 	
 	// Update is called once per frame
@@ -28,15 +33,28 @@ public class HudScript : MonoBehaviour {
 
 	void OnGUI() {
 		GUI.skin = this.skin;
-
-        //float screenWidth = Screen.width;
-		//float screenHeigth = Screen.height;
+        Color temp = GUI.color;
 
         //GUI.BeginGroup (new Rect (10, screenHeigth - 60, 200, 50));
         //GUI.Box (new Rect (0, 0, 200, 50), "HUD scale");
         //hudScale = GUI.HorizontalSlider(new Rect(10, 25, 140, 30), hudScale, 0.7f, 1.0f );
         //GUI.Label(new Rect(155, 20, 50, 30), "(" + hudScale.ToString("f2") + ")");
         //GUI.EndGroup ();
+
+        //TOP MIDDLE BOX
+        GUI.BeginGroup(new Rect(this.screenWidth / 2 - 100, 10, 200 * hudScale, 40 * hudScale));
+            GUI.Box(new Rect(0, 0, 200 * hudScale, 40 * hudScale), "");
+
+            var centeredStyle = GUI.skin.GetStyle("Label");
+            centeredStyle.alignment = TextAnchor.MiddleCenter;
+            GUI.color = this.guiColor;
+            string text = "Round : " + this.gameObject.GetComponent<GameManagerScript>().GetRound();
+            GUI.Label(new Rect(0, 0, 200 * hudScale, (40 * hudScale) / 2), text);
+            text = ((this.gameObject.GetComponent<GameManagerScript>().GetTurn() == 1) ? "Tactical Phase" : "Action");
+            GUI.Label(new Rect(0, ((40 - 10) * hudScale) / 2, 200 * hudScale, (40 * hudScale) / 2), text);
+            GUI.color = temp;
+        GUI.EndGroup();
+
 
 		GUI.BeginGroup (new Rect (10, 10, this.squadBoxWidth * hudScale, this.squadBoxHeight * hudScale + numberOfCops * 2));
 
@@ -45,7 +63,6 @@ public class HudScript : MonoBehaviour {
 
 			GUI.BeginGroup (new Rect (0, i * (height + 2), this.squadBoxWidth * hudScale, height));
 
-			Color temp = GUI.color;
             GUI.color = new Color(0f, 0f, 0f, 0f);
 			if(GUI.Button(new Rect (0, 0, this.squadBoxWidth * hudScale, height), "")) {
 				//select cop
@@ -56,6 +73,7 @@ public class HudScript : MonoBehaviour {
 			GUI.Box (new Rect (0, 0, this.squadBoxWidth * hudScale, height), "");
 			GUI.DrawTexture(new Rect(0, 5, height - 10, height - 10), copImg);			
 			GUI.color = this.guiColor;
+            centeredStyle.alignment = TextAnchor.UpperLeft;
 			GUI.Label(new Rect(height - 10, 5, this.squadBoxWidth * hudScale, 30), copNames[i]);			
 			GUI.color = temp;
 			GUI.DrawTexture(new Rect(height - 10, height - 15, this.squadBoxWidth * hudScale - height + 5, 10 * hudScale), this.healthBarDarkTex);

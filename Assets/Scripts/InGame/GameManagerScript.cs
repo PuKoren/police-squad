@@ -66,7 +66,7 @@ public class GameManagerScript : MonoBehaviour {
 			turn = 1;
 			++round;
 			
-			displayInfo = true;
+			//displayInfo = true;
 			frameCounter = 0;
 			
 			/* During the turn 1:
@@ -91,8 +91,8 @@ public class GameManagerScript : MonoBehaviour {
 		if(displayInfo)
 		{
 			// Until the the frameCounter is lower than timer, the messages will be displayed
-			this.transform.GetChild(0).GetComponent<TextMesh>().text = "Round " + round;
-			this.transform.GetChild(1).GetComponent<TextMesh>().text = "Turn " + turn;
+			//this.transform.GetChild(0).GetComponent<TextMesh>().text = "Round " + round;
+			//this.transform.GetChild(1).GetComponent<TextMesh>().text = "Turn " + turn;
 			squad.GetComponent<SquadManagerScript>().allowToSelectUnit(false);
 			
 			++frameCounter;
@@ -107,7 +107,15 @@ public class GameManagerScript : MonoBehaviour {
 					squad.GetComponent<SquadManagerScript>().allowToSelectUnit(true);
 			}
 		}
-			
-	
 	}
+
+    public int GetTurn()
+    {
+        return this.turn;
+    }
+
+    public int GetRound()
+    {
+        return this.round;
+    }
 }

@@ -28,12 +28,14 @@ public class PolicemanScript : MonoBehaviour {
 	public void activate()
 	{
 		this.transform.GetChild(2).GetComponent<LoopScaleScript>().activate();
+        this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
 	}
 	
 	public void deactivate()
 	{
 		// deactivate the torus scale changing
 		this.transform.GetChild(2).GetComponent<LoopScaleScript>().deactivate();
+        this.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	public void SelectUnit()
