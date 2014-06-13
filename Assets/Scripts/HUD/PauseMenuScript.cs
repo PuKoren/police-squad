@@ -5,7 +5,7 @@ public class PauseMenuScript : MonoBehaviour
 {
 	public GUISkin skin;
 	
-	private float gldepth = -0.5f;
+	//private float gldepth = -0.5f;
 	private float startTime = 0.1f;
 	
 	public Material mat;
@@ -39,7 +39,7 @@ public class PauseMenuScript : MonoBehaviour
 	
 	private Page currentPage;
 	
-	private float[] fpsarray;
+	//private float[] fpsarray;
 	private float fps;
 	
 	private int toolbarInt = 0;
@@ -47,7 +47,7 @@ public class PauseMenuScript : MonoBehaviour
 	
 	
 	void Start() {
-		fpsarray = new float[Screen.width];
+		//fpsarray = new float[Screen.width];
 		Time.timeScale = 1;
 		//PauseGame();
 	}
@@ -99,7 +99,7 @@ public class PauseMenuScript : MonoBehaviour
 		switch (toolbarInt) {
 		case 0: VolumeControl(); break;
 		//case 3: ShowDevice(); break;
-		case 1: Qualities(); QualityControl(); break;
+		case 1: QualityControl(); break;
 		case 2: StatControl(); break;
 		}
 		EndPage();
@@ -127,51 +127,7 @@ public class PauseMenuScript : MonoBehaviour
         Application.LoadLevel("Crime_Scene_Street_Jonathan");
     }
 	
-//	void ShowDevice() {
-//		GUILayout.Label("Unity player version "+Application.unityVersion);
-//		GUILayout.Label("Graphics: "+SystemInfo.graphicsDeviceName+" "+
-//		                SystemInfo.graphicsMemorySize+"MB\n"+
-//		                SystemInfo.graphicsDeviceVersion+"\n"+
-//		                SystemInfo.graphicsDeviceVendor);
-//		GUILayout.Label("Shadows: "+SystemInfo.supportsShadows);
-//		GUILayout.Label("Image Effects: "+SystemInfo.supportsImageEffects);
-//		GUILayout.Label("Render Textures: "+SystemInfo.supportsRenderTextures);
-//	}
-	
-	void Qualities() {
-		switch (QualitySettings.currentLevel) 
-		{
-		case QualityLevel.Fastest:
-			GUILayout.Label("Fastest");
-			break;
-		case QualityLevel.Fast:
-			GUILayout.Label("Fast");
-			break;
-		case QualityLevel.Simple:
-			GUILayout.Label("Simple");
-			break;
-		case QualityLevel.Good:
-			GUILayout.Label("Good");
-			break;
-		case QualityLevel.Beautiful:
-			GUILayout.Label("Beautiful");
-			break;
-		case QualityLevel.Fantastic:
-			GUILayout.Label("Fantastic");
-			break;
-		}
-	}
-	
 	void QualityControl() {
-		GUILayout.BeginHorizontal();
-		if (GUILayout.Button("Decrease")) {
-			QualitySettings.DecreaseLevel();
-		}
-		if (GUILayout.Button("Increase")) {
-			QualitySettings.IncreaseLevel();
-		}
-		GUILayout.EndHorizontal();
-
         GUILayout.Label("Hud scale");
         this.GetComponent<HudScript>().hudScale = GUILayout.HorizontalSlider(this.GetComponent<HudScript>().hudScale, 0.7f, 1f);
 	}
@@ -253,7 +209,7 @@ public class PauseMenuScript : MonoBehaviour
 		currentPage = Page.None;
 		
 		if (IsBeginning() && start != null) {
-			start.active = true;
+			start.SetActive(true);
 		}
 	}
 	

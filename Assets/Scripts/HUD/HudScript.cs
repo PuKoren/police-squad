@@ -29,8 +29,8 @@ public class HudScript : MonoBehaviour {
 	void OnGUI() {
 		GUI.skin = this.skin;
 
-//		float screenWidth = Screen.width;
-		float screenHeigth = Screen.height;
+        //float screenWidth = Screen.width;
+		//float screenHeigth = Screen.height;
 
         //GUI.BeginGroup (new Rect (10, screenHeigth - 60, 200, 50));
         //GUI.Box (new Rect (0, 0, 200, 50), "HUD scale");
