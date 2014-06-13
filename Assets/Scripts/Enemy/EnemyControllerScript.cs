@@ -104,6 +104,7 @@ public class EnemyControllerScript : MonoBehaviour
     public void setExecuteActions(bool execute)
     {
         executeActions = execute;
+        this.transform.GetChild(0).GetComponent<MeshCollider>().enabled = execute;
     }
 
     // Getter

@@ -11,7 +11,6 @@ public class GameManagerScript : MonoBehaviour {
 	public int timer;
 	
 	private GameObject squad;
-    private EnemyControllerScript[] enemies;
 	
 	// Use this for initialization
 	void Start () {
@@ -27,8 +26,6 @@ public class GameManagerScript : MonoBehaviour {
 		
 		squad = GameObject.FindGameObjectWithTag("Squad");
 		squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
-
-        enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
 	}
 	
 	// Update is called once per frame
@@ -52,6 +49,7 @@ public class GameManagerScript : MonoBehaviour {
 			squad.GetComponent<SquadManagerScript>().activateCopsFieldOfView();
 
             // Activate the actions of all enemies
+            EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
             foreach (EnemyControllerScript enemy in enemies)
             {
                 enemy.setExecuteActions(true);
@@ -81,6 +79,7 @@ public class GameManagerScript : MonoBehaviour {
             squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
 
             // Deactivate the actions of all enemies
+            EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
             foreach (EnemyControllerScript enemy in enemies)
             {
                 enemy.setExecuteActions(false);
