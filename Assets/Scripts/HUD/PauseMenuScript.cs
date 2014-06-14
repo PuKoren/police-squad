@@ -57,7 +57,7 @@ public class PauseMenuScript : MonoBehaviour
 			FPSUpdate();
 		}
 		
-		if (Input.GetKeyDown("escape")) 
+		if (Input.GetKeyDown("space")) 
 		{
 			switch (currentPage) 
 			{
