@@ -8,6 +8,8 @@ public class PolicemanScript : MonoBehaviour {
     public int Pv = 10;
     public GameObject BulletPrefab;
     static public int RangeRandomPercentLife = 10;
+
+    private bool IsAlive = true;
 	
 	// Use this for initialization
 	void Start ()
@@ -41,7 +43,8 @@ public class PolicemanScript : MonoBehaviour {
 	public void SelectUnit()
     {
 		// Tell the squad object (parent) to select this object
-		this.transform.parent.GetComponent<SquadManagerScript>().switchCurrentCop(this);
+        if(this.IsAlive)
+		    this.transform.parent.GetComponent<SquadManagerScript>().switchCurrentCop(this);
 	}
 
     public float GetRandomPV()
@@ -57,7 +60,11 @@ public class PolicemanScript : MonoBehaviour {
     {
         this.Pv -= damage;
         if (this.Pv <= 0)
-            Destroy(this.gameObject);
+        {
+            this.IsAlive = false;
+            GameManagerScript.NbCopsAlive--;
+            //Destroy(this.gameObject);
+        }
     }
 
     // Trigger

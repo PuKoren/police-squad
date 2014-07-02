@@ -32,6 +32,7 @@ public class HudScript : MonoBehaviour {
 	}
 
 	void OnGUI() {
+        GUISkin tempSkin = GUI.skin;
 		GUI.skin = this.skin;
         Color temp = GUI.color;
 
@@ -42,7 +43,14 @@ public class HudScript : MonoBehaviour {
         //GUI.EndGroup ();
 
         //TOP MIDDLE BOX
-        GUI.BeginGroup(new Rect(this.screenWidth / 2 - 100, 10, 200 * hudScale, 40 * hudScale));
+        GUI.BeginGroup(new Rect(this.screenWidth / 2 - 100, 10, 200 * hudScale, 200 * hudScale));
+            GUI.skin = tempSkin;
+            if (GUI.Button(new Rect(0, 50, 200 * hudScale, (100 * hudScale) / 2), "Action"))
+            {
+                this.gameObject.GetComponent<GameManagerScript>().LaunchTurn();
+            }
+
+            GUI.skin = this.skin;
             GUI.Box(new Rect(0, 0, 200 * hudScale, 40 * hudScale), "");
 
             var centeredStyle = GUI.skin.GetStyle("Label");
@@ -52,11 +60,10 @@ public class HudScript : MonoBehaviour {
             GUI.Label(new Rect(0, 0, 200 * hudScale, (40 * hudScale) / 2), text);
             text = ((this.gameObject.GetComponent<GameManagerScript>().GetTurn() == 1) ? "Tactical Phase" : "Action");
             GUI.Label(new Rect(0, ((40 - 10) * hudScale) / 2, 200 * hudScale, (40 * hudScale) / 2), text);
-            GUI.color = temp;
+            GUI.color = temp;           
         GUI.EndGroup();
 
-
-		GUI.BeginGroup (new Rect (10, 10, this.squadBoxWidth * hudScale, this.squadBoxHeight * hudScale + numberOfCops * 2));
+		GUI.BeginGroup (new Rect (10, 50, this.squadBoxWidth * hudScale, this.squadBoxHeight * hudScale + numberOfCops * 2));
 
 		for (int i = 0; i<this.numberOfCops; i++) {
 			float height = this.squadBoxHeight / numberOfCops * hudScale;
@@ -77,10 +84,40 @@ public class HudScript : MonoBehaviour {
 			GUI.Label(new Rect(height - 10, 5, this.squadBoxWidth * hudScale, 30), copNames[i]);			
 			GUI.color = temp;
 			GUI.DrawTexture(new Rect(height - 10, height - 15, this.squadBoxWidth * hudScale - height + 5, 10 * hudScale), this.healthBarDarkTex);
-			GUI.DrawTexture(new Rect(height - 10, height - 15, (this.squadBoxWidth * hudScale - height + 5) * 0.1f * (i + 1), 10 * hudScale), this.healthBarTex);
+			GUI.DrawTexture(new Rect(height - 10, height - 15, this.squad[i].GetComponent<PolicemanScript>().Pv * ((this.squadBoxWidth * hudScale - height + 5) / 10), 10 * hudScale), this.healthBarTex);
 			GUI.EndGroup ();
 		}
 
 		GUI.EndGroup ();
+
+
+        if (this.gameObject.GetComponent<GameManagerScript>().gameState == GameManagerScript.GameState.LOST || this.gameObject.GetComponent<GameManagerScript>().gameState == GameManagerScript.GameState.WIN)
+        {
+            bool test = this.gameObject.GetComponent<GameManagerScript>().gameState == GameManagerScript.GameState.LOST;
+
+            string text1 = (test) ? "MISSION FAILED" : "MISSION SUCCEEDED";
+            string text2 = (test) ? "Your cops have eaten too much donuts!" : "Your cops are the best!";
+            GUI.color = (test) ? Color.red : Color.green;
+
+            GUI.skin = tempSkin;
+            GUI.BeginGroup(new Rect(this.screenWidth / 2 - 100, this.screenHeight / 2 - 100, 200 * hudScale, 160 * hudScale));
+                GUI.Box(new Rect(0, 0, 200 * hudScale, 200 * hudScale), "");
+
+                centeredStyle = GUI.skin.GetStyle("Label");
+                centeredStyle.alignment = TextAnchor.MiddleCenter;
+                GUI.Label(new Rect(0, 10, 200 * hudScale, (40 * hudScale) / 2), text1);             
+                GUI.Label(new Rect(0, 30, 200 * hudScale, (80 * hudScale) / 2), text2);
+                GUI.color = temp;
+                if (GUI.Button(new Rect(100 - 120 * hudScale / 2, 70, 120 * hudScale, (70 * hudScale) / 2), "RESTART"))
+                {
+                    Application.LoadLevel(Application.loadedLevelName);
+                }
+
+                if (GUI.Button(new Rect(100 - 120 * hudScale / 2, 110, 120 * hudScale, (70 * hudScale) / 2), "MAIN MENU"))
+                {
+                    Application.LoadLevel("Crime_Scene_Street_Jonathan");
+                }
+            GUI.EndGroup();
+        }
 	}	
 }
