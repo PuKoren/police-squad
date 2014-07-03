@@ -1,7 +1,7 @@
 ﻿ using UnityEngine;
 using System.Collections;
 
-public class BulletScript : MonoBehaviour
+public class BulletEnemyScript : MonoBehaviour
 {
     public float Speed = 100;
     public float LifeTime = 1.5f;
@@ -28,15 +28,15 @@ public class BulletScript : MonoBehaviour
     // Collision
     void OnTriggerEnter(Collider collision)
     {
-        //if (collision.gameObject.tag == "Cop")
-        //{
-        //    collision.gameObject.GetComponent<PolicemanScript>().Touch(this.Damage);
-        //    Destroy(this.gameObject);
-        //}
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Cop")
         {
-            collision.gameObject.GetComponent<EnemyControllerScript>().Touch(this.Damage);
+            collision.gameObject.GetComponent<PolicemanScript>().Touch(this.Damage);
             Destroy(this.gameObject);
         }
+        //else if (collision.gameObject.tag == "Enemy")
+        //{
+        //    collision.gameObject.GetComponent<EnemyControllerScript>().Touch(this.Damage);
+        //    Destroy(this.gameObject);
+        //}
     }
 }

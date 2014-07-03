@@ -12,16 +12,19 @@ public class GameManagerScript : MonoBehaviour {
 	
 	private GameObject squad;
 
+    public enum GameState { START, LOST, WIN };
+    static public GameState gameState = GameState.START;
     static public int NbCopsAlive = 5;
     static public int NbEnemyAlive = 5;
-    public enum GameState { START, LOST, WIN };
-    public GameState gameState;
 	
 	// Use this for initialization
 	public void Start () {
 		turn = 1;
 		round = 1;
-        gameState = GameState.START;
+
+        GameManagerScript.gameState = GameState.START;
+        GameManagerScript.NbCopsAlive = 5;
+        GameManagerScript.NbEnemyAlive = 5;
 
 		displayInfo = true;
 		frameCounter = 0;
@@ -36,9 +39,8 @@ public class GameManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (gameState == GameState.START)
+        if (GameManagerScript.gameState == GameState.START)
         {
-
             // If the user press "ENTER" and the current turn is 1, then the turn 2 starts
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -96,9 +98,9 @@ public class GameManagerScript : MonoBehaviour {
 
             if (GameManagerScript.NbCopsAlive <= 0)
             {
-                gameState = GameState.LOST;
+                GameManagerScript.gameState = GameState.LOST;
             } else if (GameManagerScript.NbEnemyAlive <= 0) {
-                gameState = GameState.WIN;
+                GameManagerScript.gameState = GameState.WIN;
             }
         }
 	}

@@ -90,10 +90,10 @@ public class HudScript : MonoBehaviour {
 
 		GUI.EndGroup ();
 
-
-        if (this.gameObject.GetComponent<GameManagerScript>().gameState == GameManagerScript.GameState.LOST || this.gameObject.GetComponent<GameManagerScript>().gameState == GameManagerScript.GameState.WIN)
+        //Debug.Log(GameManagerScript.gameState);
+        if (GameManagerScript.gameState != GameManagerScript.GameState.START)
         {
-            bool test = this.gameObject.GetComponent<GameManagerScript>().gameState == GameManagerScript.GameState.LOST;
+            bool test = (GameManagerScript.gameState == GameManagerScript.GameState.LOST) ? true : false;
 
             string text1 = (test) ? "MISSION FAILED" : "MISSION SUCCEEDED";
             string text2 = (test) ? "Your cops have eaten too much donuts!" : "Your cops are the best!";

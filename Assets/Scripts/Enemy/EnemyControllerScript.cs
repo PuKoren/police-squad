@@ -8,6 +8,7 @@ public class EnemyControllerScript : MonoBehaviour
     public int Pv = 10;
     public GameObject BulletPrefab;
     public float MaximalDistanceForSeeFriends = 10.0f;
+    public bool IsAlive = true;
 
     private List<PolicemanScript> PolicemanVisible = new List<PolicemanScript>();
     private List<EnemyControllerScript> FriendsArround = new List<EnemyControllerScript>();
@@ -30,27 +31,30 @@ public class EnemyControllerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (executeActions)
+        if (this.IsAlive)
         {
-            this.Behavior.Update();
-
-            // Update the list
-            this.FriendsArround.Clear();
-            EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
-            foreach (EnemyControllerScript ennemy in enemies)
+            if (executeActions)
             {
-                if (ennemy != this)
+                this.Behavior.Update();
+
+                // Update the list
+                this.FriendsArround.Clear();
+                EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
+                foreach (EnemyControllerScript ennemy in enemies)
                 {
-                    if (Vector3.Distance(ennemy.transform.position, this.transform.position) <= this.MaximalDistanceForSeeFriends)
+                    if (ennemy != this)
                     {
-                        this.FriendsArround.Add(ennemy);
+                        if (Vector3.Distance(ennemy.transform.position, this.transform.position) <= this.MaximalDistanceForSeeFriends)
+                        {
+                            this.FriendsArround.Add(ennemy);
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            this.NavMeshAgent.Stop();
+            else
+            {
+                this.NavMeshAgent.Stop();
+            }
         }
 	}
 
@@ -128,9 +132,15 @@ public class EnemyControllerScript : MonoBehaviour
     // Differents functions
     public void Touch(int damage)
     {
-        this.Pv -= damage;
-        if (this.Pv <= 0)
-            Destroy(this.gameObject);
+        if (this.IsAlive)
+        {
+            this.Pv -= damage;
+            if (this.Pv <= 0)
+            {
+                this.IsAlive = false;
+                GameManagerScript.NbEnemyAlive--;
+            }
+        }        
     }
 
     public bool isSeeingPoliceman(PolicemanScript policeman)
