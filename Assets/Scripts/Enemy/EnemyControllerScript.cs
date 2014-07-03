@@ -5,27 +5,24 @@ using System.Collections.Generic;
 public class EnemyControllerScript : MonoBehaviour
 {
     public float DelayBetweenTwoFires = 1.0f;
-    public int Pv = 10;
+    public int Pv = 4;
     public GameObject BulletPrefab;
     public GameManagerScript GameManager;
     public SquadManagerScript squad;
-    public float MaximalDistanceForSeeFriends = 10.0f;
     public float SizeRadiusWalk = 5.0f;
+    public float attackSpeed = 1.0f;
 
     private List<PolicemanScript> PolicemanVisible = new List<PolicemanScript>();
-    private List<EnemyControllerScript> FriendsArround = new List<EnemyControllerScript>();
-    private bool IsFighting = false;
-    private bool AlreadySeePoliceman = false;
     private Transform PositionExit;
-    private NavMeshAgent NavMeshAgent;
-    private bool executeActions;
     public List<Vector3> PositionToMove = new List<Vector3>();
+    private float previousTime = 0.0f;
+    private PolicemanScript target = null;
+    private bool executeActions = false;
 
 	// Use this for initialization
 	void Start ()
     {
         this.PositionExit = GameObject.FindGameObjectWithTag("Exit").transform;
-        this.NavMeshAgent = this.GetComponent<NavMeshAgent>();
 
         Vector3 maxSize = (this.PositionExit.position - this.transform.position) / (this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum);
         for (int i = 0; i < this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum; ++i)
@@ -41,68 +38,56 @@ public class EnemyControllerScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        /*if (executeActions)
+        if (GameManagerScript.gameState == GameManagerScript.GameState.START && this.Pv > 0 && this.executeActions)
         {
-            // Update the list
-            this.FriendsArround.Clear();
-            EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
-            foreach (EnemyControllerScript ennemy in enemies)
+            if (this.target == null)
             {
-                if (ennemy != this)
+                if (this.PolicemanVisible.Count > 0)
                 {
-                    if (Vector3.Distance(ennemy.transform.position, this.transform.position) <= this.MaximalDistanceForSeeFriends)
+                    this.target = this.PolicemanVisible[0];
+                }
+            }
+
+            if (this.target)
+            {
+                if (this.target.Pv > 0)
+                {
+                    if (Time.time >= this.previousTime + this.attackSpeed)
                     {
-                        this.FriendsArround.Add(ennemy);
+                        //Instanciate the bullet
+                        GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
+                        go.transform.LookAt(this.target.transform);
+                        this.previousTime = Time.time;
+                        Debug.Log("Shoot Enemy");
                     }
+                }
+                else
+                {
+                    this.PolicemanVisible.Remove(this.target);
+                    this.target = null;
                 }
             }
         }
-        else
-        {
-            this.NavMeshAgent.Stop();
-        }*/
 	}
-
-    public void Fire()
-    {
-        this.IsFighting = true;
-        
-        // Find the closest policeman
-        float minDistance = Mathf.Infinity;
-        PolicemanScript policeman = null;
-        for (int i = 0; i < this.PolicemanVisible.Count; ++i)
-        {
-            float tempDistance = Vector3.Distance(this.PolicemanVisible[i].transform.position, this.transform.position);
-            if (tempDistance < minDistance)
-            {
-                minDistance = tempDistance;
-                policeman = this.PolicemanVisible[i];
-            }
-        }
-
-        if (policeman != null)
-        {
-            // Instanciate the bullet
-            GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
-            go.transform.LookAt(policeman.transform);
-        }
-    }
 
 	// Allow the unit to do its actions (moving)
     public void setExecuteActions(bool execute)
     {
-        executeActions = execute;
-        this.transform.GetChild(0).GetComponent<MeshCollider>().enabled = execute;
-
-        NavMeshEnemyScript nav = this.GetComponent<NavMeshEnemyScript>();
-        if (execute)
+        if (this.Pv > 0)
         {
-            for (int i = this.squad.nbActionsPerTurn * (this.GameManager.GetRound() - 1); i < this.squad.nbActionsPerTurn * this.GameManager.GetRound(); ++i)
+            this.executeActions = execute;
+            this.transform.GetChild(0).GetComponent<MeshCollider>().enabled = execute;
+
+            NavMeshEnemyScript nav = this.GetComponent<NavMeshEnemyScript>();
+            if (execute)
             {
-                nav.addTarget(this.PositionToMove[i]);
+                for (int i = this.squad.nbActionsPerTurn * (this.GameManager.GetRound() - 1); i < this.squad.nbActionsPerTurn * this.GameManager.GetRound(); ++i)
+                {
+                    nav.addTarget(this.PositionToMove[i]);
+                }
             }
+            nav.setExecuteActions(execute);
         }
-        nav.setExecuteActions(execute);
     }
 
     // Getter
@@ -110,25 +95,20 @@ public class EnemyControllerScript : MonoBehaviour
     {
         return PolicemanVisible;
     }
-    public List<EnemyControllerScript> GetFriendsArround()
-    {
-        return FriendsArround;
-    }
-    public bool GetIsFighting()
-    {
-        return this.IsFighting;
-    }
-    public bool GetAlreadySeePoliceman()
-    {
-        return this.AlreadySeePoliceman;
-    }
 
     // Differents functions
     public void Touch(int damage)
     {
-        this.Pv -= damage;
-        if (this.Pv <= 0)
-            Destroy(this.gameObject);
+        if (this.Pv > 0)
+        {
+            this.Pv -= damage;
+            if (this.Pv <= 0)
+            {
+                GameManagerScript.NbEnemyAlive--;
+                this.GetComponent<NavMeshAgent>().Stop();
+                this.GetComponent<NavMeshEnemyScript>().setExecuteActions(false);
+            }
+        }
     }
 
     public bool isSeeingPoliceman(PolicemanScript policeman)
@@ -144,12 +124,18 @@ public class EnemyControllerScript : MonoBehaviour
     // Trigger
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.tag == "Cop")
+        if (collider.tag == "Cop" && !this.PolicemanVisible.Contains(collider.GetComponent<PolicemanScript>()))
             this.PolicemanVisible.Add(collider.GetComponent<PolicemanScript>());
     }
     void OnTriggerExit(Collider collider)
     {
         if (collider.tag == "Cop")
+        {
+            if (this.target == collider.gameObject.GetComponent<PolicemanScript>())
+            {
+                this.target = null;
+            }
             this.PolicemanVisible.Remove(collider.GetComponent<PolicemanScript>());
+        }
     }
 }

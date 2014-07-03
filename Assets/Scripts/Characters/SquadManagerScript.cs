@@ -3,8 +3,9 @@ using System.Collections;
 
 public class SquadManagerScript : MonoBehaviour {
 
-	private GameObject[] listOfCops = new GameObject[5];
-	private int[] listOfActionsCounter = new int[5];
+    [HideInInspector]
+	public GameObject[] listOfCops;
+	private int[] listOfActionsCounter;
 	private GameObject currentCop;
 	public int nbActionsPerTurn = 2;
 	private int currentCopIndex;
@@ -13,12 +14,13 @@ public class SquadManagerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		int i; 
-		
-		// Add all the cops to the list, and set the counter of their allowed moves (checkpoints) to 0
-		for(i = 0; i < 5; ++i)
+		int i;
+
+        // Add all the cops to the list, and set the counter of their allowed moves (checkpoints) to 0
+        this.listOfCops = GameObject.FindGameObjectsWithTag("Cop");
+        this.listOfActionsCounter = new int[this.listOfCops.Length];
+		for(i = 0; i < this.listOfCops.Length; ++i)
 		{
-			listOfCops[i] = this.transform.GetChild(i).gameObject;
 			listOfActionsCounter[i] = 0;
 		}
 		
@@ -147,13 +149,22 @@ public class SquadManagerScript : MonoBehaviour {
 			listOfCops[i].transform.GetChild(0).GetComponent<MeshCollider>().enabled = true;
 		}
 	}
-	
-	// Deactivate the view field of each cop
-	public void deactivateCopsFieldOfView()
-	{
-		for(int i = 0; i < listOfCops.Length; ++i)
-		{
-			listOfCops[i].transform.GetChild(0).GetComponent<MeshCollider>().enabled = false;
-		}
-	}
+
+    // Deactivate the view field of each cop
+    public void deactivateCopsFieldOfView()
+    {
+        for (int i = 0; i < listOfCops.Length; ++i)
+        {
+            listOfCops[i].transform.GetChild(0).GetComponent<MeshCollider>().enabled = false;
+        }
+    }
+
+    // Execute or not action of the cops
+    public void SetExecuteActions(bool execute)
+    {
+        for (int i = 0; i < listOfCops.Length; ++i)
+        {
+            listOfCops[i].GetComponent<PolicemanScript>().setExecuteActions(execute);
+        }
+    }
 }

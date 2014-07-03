@@ -13,17 +13,18 @@ public class GameManagerScript : MonoBehaviour {
 	
 	private GameObject squad;
 
-    static public int NbCopsAlive = 5;
-    static public int NbEnemyAlive = 5;
     public enum GameState { START, LOST, WIN };
-    public GameState gameState;
+    static public GameState gameState = GameState.START;
+    static public int NbCopsAlive;
+    static public int NbEnemyAlive;
     private EnemyControllerScript[] enemies;
 	
 	// Use this for initialization
 	public void Start () {
 		turn = 1;
 		round = 1;
-        gameState = GameState.START;
+
+        GameManagerScript.gameState = GameState.START;
 
 		displayInfo = true;
 		frameCounter = 0;
@@ -31,11 +32,13 @@ public class GameManagerScript : MonoBehaviour {
 		// Hide the messages
 		this.transform.GetChild(0).GetComponent<TextMesh>().text = "";
 		this.transform.GetChild(1).GetComponent<TextMesh>().text = "";
-		
-		squad = GameObject.FindGameObjectWithTag("Squad");
-        squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+
+        this.squad = GameObject.FindGameObjectWithTag("Squad");
+        GameManagerScript.NbCopsAlive = this.squad.GetComponent<SquadManagerScript>().listOfCops.Length;
+        this.squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
 
         this.enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
+        GameManagerScript.NbEnemyAlive = this.enemies.Length;
         foreach (EnemyControllerScript enemy in this.enemies)
         {
             enemy.setExecuteActions(false);
@@ -44,9 +47,8 @@ public class GameManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (gameState == GameState.START)
+        if (GameManagerScript.gameState == GameState.START)
         {
-
             // If the user press "ENTER" and the current turn is 1, then the turn 2 starts
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -54,7 +56,13 @@ public class GameManagerScript : MonoBehaviour {
             }
 
             // If the units have finished their paths
-            if (squad.GetComponent<SquadManagerScript>().hasTheTeamFinishedToMove() && turn == 2)
+            bool hasTheEnnemiesFinishedToMove = true;
+            for (int i = 0; i < this.enemies.Length; ++i)
+            {
+                if (this.enemies[i].GetComponent<NavMeshEnemyScript>().hasFinishedItsPath() == false)
+                    hasTheEnnemiesFinishedToMove = false;
+            }
+            if (squad.GetComponent<SquadManagerScript>().hasTheTeamFinishedToMove() && hasTheEnnemiesFinishedToMove && turn == 2)
             {
                 turn = 1;
                 ++round;
@@ -72,6 +80,7 @@ public class GameManagerScript : MonoBehaviour {
                 squad.GetComponent<SquadManagerScript>().allowToSelectUnit(true);
                 squad.GetComponent<SquadManagerScript>().resetListOfActionsCounter();
                 squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+                squad.GetComponent<SquadManagerScript>().SetExecuteActions(false);
 
                 // Deactivate the actions of all enemies
                 foreach (EnemyControllerScript enemy in this.enemies)
@@ -103,9 +112,9 @@ public class GameManagerScript : MonoBehaviour {
 
             if (GameManagerScript.NbCopsAlive <= 0)
             {
-                gameState = GameState.LOST;
+                GameManagerScript.gameState = GameState.LOST;
             } else if (GameManagerScript.NbEnemyAlive <= 0) {
-                gameState = GameState.WIN;
+                GameManagerScript.gameState = GameState.WIN;
             }
         }
 	}
@@ -127,6 +136,7 @@ public class GameManagerScript : MonoBehaviour {
             squad.GetComponent<SquadManagerScript>().unselectCop();
             squad.GetComponent<SquadManagerScript>().allowToSelectUnit(false);
             squad.GetComponent<SquadManagerScript>().activateCopsFieldOfView();
+            squad.GetComponent<SquadManagerScript>().SetExecuteActions(true);
 
             // Activate the actions of all enemies
             foreach (EnemyControllerScript enemy in this.enemies)
