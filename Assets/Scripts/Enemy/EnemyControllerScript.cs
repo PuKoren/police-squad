@@ -7,33 +7,42 @@ public class EnemyControllerScript : MonoBehaviour
     public float DelayBetweenTwoFires = 1.0f;
     public int Pv = 10;
     public GameObject BulletPrefab;
+    public GameManagerScript GameManager;
+    public SquadManagerScript squad;
     public float MaximalDistanceForSeeFriends = 10.0f;
+    public float SizeRadiusWalk = 5.0f;
 
     private List<PolicemanScript> PolicemanVisible = new List<PolicemanScript>();
     private List<EnemyControllerScript> FriendsArround = new List<EnemyControllerScript>();
     private bool IsFighting = false;
     private bool AlreadySeePoliceman = false;
-    private EnemyBehaviorTree Behavior;
     private Transform PositionExit;
     private NavMeshAgent NavMeshAgent;
     private bool executeActions;
+    public List<Vector3> PositionToMove = new List<Vector3>();
 
 	// Use this for initialization
 	void Start ()
     {
-        this.Behavior = new EnemyBehavior();
-        this.Behavior.UserData = this;
         this.PositionExit = GameObject.FindGameObjectWithTag("Exit").transform;
         this.NavMeshAgent = this.GetComponent<NavMeshAgent>();
+
+        Vector3 maxSize = (this.PositionExit.position - this.transform.position) / (this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum);
+        for (int i = 0; i < this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum; ++i)
+        {
+            Vector3 pos = this.transform.position + maxSize * (i + 1);
+            pos.x += Random.Range(-this.SizeRadiusWalk, this.SizeRadiusWalk);
+            pos.z += Random.Range(-this.SizeRadiusWalk, this.SizeRadiusWalk);
+
+            this.PositionToMove.Add(pos);
+        }
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (executeActions)
+        /*if (executeActions)
         {
-            this.Behavior.Update();
-
             // Update the list
             this.FriendsArround.Clear();
             EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
@@ -51,7 +60,7 @@ public class EnemyControllerScript : MonoBehaviour
         else
         {
             this.NavMeshAgent.Stop();
-        }
+        }*/
 	}
 
     public void Fire()
@@ -76,28 +85,7 @@ public class EnemyControllerScript : MonoBehaviour
             // Instanciate the bullet
             GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
             go.transform.LookAt(policeman.transform);
-
-            // Stop moving
-            this.NavMeshAgent.Stop();
         }
-    }
-
-    public void Escape()
-    {
-        // Move the object
-        this.NavMeshAgent.SetDestination(this.PositionExit.position);
-    }
-
-    public void GoToHelpFriend(EnemyControllerScript friend)
-    {
-        // Move the object
-        this.NavMeshAgent.SetDestination(friend.transform.position);
-    }
-
-    public void GoToExit()
-    {
-        // Move the object
-        this.NavMeshAgent.SetDestination(this.PositionExit.position);
     }
 
 	// Allow the unit to do its actions (moving)
@@ -105,6 +93,16 @@ public class EnemyControllerScript : MonoBehaviour
     {
         executeActions = execute;
         this.transform.GetChild(0).GetComponent<MeshCollider>().enabled = execute;
+
+        NavMeshEnemyScript nav = this.GetComponent<NavMeshEnemyScript>();
+        if (execute)
+        {
+            for (int i = this.squad.nbActionsPerTurn * (this.GameManager.GetRound() - 1); i < this.squad.nbActionsPerTurn * this.GameManager.GetRound(); ++i)
+            {
+                nav.addTarget(this.PositionToMove[i]);
+            }
+        }
+        nav.setExecuteActions(execute);
     }
 
     // Getter

@@ -8,7 +8,8 @@ public class GameManagerScript : MonoBehaviour {
 	private int round;
 	private bool displayInfo;
 	private int frameCounter;
-	public int timer;
+    public int timer;
+    public int numberRoundMaximum = 2;
 	
 	private GameObject squad;
 
@@ -16,6 +17,7 @@ public class GameManagerScript : MonoBehaviour {
     static public int NbEnemyAlive = 5;
     public enum GameState { START, LOST, WIN };
     public GameState gameState;
+    private EnemyControllerScript[] enemies;
 	
 	// Use this for initialization
 	public void Start () {
@@ -31,7 +33,13 @@ public class GameManagerScript : MonoBehaviour {
 		this.transform.GetChild(1).GetComponent<TextMesh>().text = "";
 		
 		squad = GameObject.FindGameObjectWithTag("Squad");
-		squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+        squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
+
+        this.enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
+        foreach (EnemyControllerScript enemy in this.enemies)
+        {
+            enemy.setExecuteActions(false);
+        }
 	}
 	
 	// Update is called once per frame
@@ -66,8 +74,7 @@ public class GameManagerScript : MonoBehaviour {
                 squad.GetComponent<SquadManagerScript>().deactivateCopsFieldOfView();
 
                 // Deactivate the actions of all enemies
-                EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
-                foreach (EnemyControllerScript enemy in enemies)
+                foreach (EnemyControllerScript enemy in this.enemies)
                 {
                     enemy.setExecuteActions(false);
                 }
@@ -122,8 +129,7 @@ public class GameManagerScript : MonoBehaviour {
             squad.GetComponent<SquadManagerScript>().activateCopsFieldOfView();
 
             // Activate the actions of all enemies
-            EnemyControllerScript[] enemies = GameObject.FindObjectsOfType<EnemyControllerScript>();
-            foreach (EnemyControllerScript enemy in enemies)
+            foreach (EnemyControllerScript enemy in this.enemies)
             {
                 enemy.setExecuteActions(true);
             }
