@@ -28,10 +28,8 @@ public class BulletEnemyScript : MonoBehaviour
     // Collision
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Collision BulletEnemy");
         if (collision.gameObject.tag == "Cop")
         {
-            Debug.Log("Collision Police");
             collision.gameObject.GetComponent<PolicemanScript>().Touch(this.Damage);
             Destroy(this.gameObject);
         }

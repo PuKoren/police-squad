@@ -93,10 +93,10 @@ public class HudScript : MonoBehaviour {
         //Debug.Log(GameManagerScript.gameState);
         if (GameManagerScript.gameState != GameManagerScript.GameState.START)
         {
-            bool test = (GameManagerScript.gameState == GameManagerScript.GameState.LOST) ? true : false;
+            bool test = (GameManagerScript.gameState == GameManagerScript.GameState.LOST || GameManagerScript.gameState == GameManagerScript.GameState.LOSTROUND) ? true : false;
 
             string text1 = (test) ? "MISSION FAILED" : "MISSION SUCCEEDED";
-            string text2 = (test) ? "Your cops have eaten too much donuts!" : "Your cops are the best!";
+            string text2 = (test) ? (GameManagerScript.gameState == GameManagerScript.GameState.LOSTROUND ? "You are a bad tactician!" : "Your cops have eaten too much donuts!") : "Your cops are the best!";
             GUI.color = (test) ? Color.red : Color.green;
 
             GUI.skin = tempSkin;
@@ -115,7 +115,7 @@ public class HudScript : MonoBehaviour {
 
                 if (GUI.Button(new Rect(100 - 120 * hudScale / 2, 110, 120 * hudScale, (70 * hudScale) / 2), "MAIN MENU"))
                 {
-                    Application.LoadLevel("Crime_Scene_Street_Jonathan");
+                    Application.LoadLevel("MainMenu");
                 }
             GUI.EndGroup();
         }

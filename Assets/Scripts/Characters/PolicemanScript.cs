@@ -50,13 +50,11 @@ public class PolicemanScript : MonoBehaviour {
                         //    go.GetComponent<BulletScript>().Damage = enemy.Pv;
                         //}
 
-                        Debug.Log("Shoot Police");
                         this.previousTime = Time.time;
                     }
                 }
                 else
                 {
-                    Debug.Log("Kill");
                     this.enemyInVision.Remove(this.target);
                     this.target = null;
                 }
@@ -111,6 +109,9 @@ public class PolicemanScript : MonoBehaviour {
                 GameManagerScript.NbCopsAlive--;
                 this.GetComponent<NavMeshAgent>().Stop();
                 this.GetComponent<NavMeshScript>().setExecuteActions(false);
+                this.particleSystem.Stop();
+                this.particleSystem.enableEmission = true;
+                this.particleSystem.Play();
             }
         }
     }
@@ -123,6 +124,7 @@ public class PolicemanScript : MonoBehaviour {
             if (!this.enemyInVision.Contains(collider.gameObject.GetComponent<EnemyControllerScript>()) && collider.gameObject.GetComponent<EnemyControllerScript>().Pv > 0)
             {
                 this.enemyInVision.Add(collider.gameObject.GetComponent<EnemyControllerScript>());
+                collider.gameObject.renderer.enabled = true;
             }
         }
     }
@@ -131,12 +133,25 @@ public class PolicemanScript : MonoBehaviour {
     {
         if (collider.tag == "Enemy")
         {
-            Debug.Log("Exit");
             if (this.target == collider.gameObject.GetComponent<EnemyControllerScript>())
             {
                 this.target = null;
             }
             this.enemyInVision.Remove(collider.gameObject.GetComponent<EnemyControllerScript>());
+
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("Cop");
+            bool find = false;
+            foreach (GameObject go in gos)
+            {
+                PolicemanScript ps = go.GetComponent<PolicemanScript>();
+                if (ps.enemyInVision.Contains(collider.gameObject.GetComponent<EnemyControllerScript>()))
+                {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find && collider.gameObject.GetComponent<EnemyControllerScript>().Pv > 0)
+                collider.gameObject.renderer.enabled = false;
         }
     }
 }

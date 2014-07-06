@@ -13,7 +13,7 @@ public class GameManagerScript : MonoBehaviour {
 	
 	private GameObject squad;
 
-    public enum GameState { START, LOST, WIN };
+    public enum GameState { START, LOST, WIN, LOSTROUND };
     static public GameState gameState = GameState.START;
     static public int NbCopsAlive;
     static public int NbEnemyAlive;
@@ -59,7 +59,7 @@ public class GameManagerScript : MonoBehaviour {
             bool hasTheEnnemiesFinishedToMove = true;
             for (int i = 0; i < this.enemies.Length; ++i)
             {
-                if (this.enemies[i].GetComponent<NavMeshEnemyScript>().hasFinishedItsPath() == false)
+                if (this.enemies[i].Pv > 0 && this.enemies[i].GetComponent<NavMeshEnemyScript>().hasFinishedItsPath() == false)
                     hasTheEnnemiesFinishedToMove = false;
             }
             if (squad.GetComponent<SquadManagerScript>().hasTheTeamFinishedToMove() && hasTheEnnemiesFinishedToMove && turn == 2)
@@ -115,6 +115,8 @@ public class GameManagerScript : MonoBehaviour {
                 GameManagerScript.gameState = GameState.LOST;
             } else if (GameManagerScript.NbEnemyAlive <= 0) {
                 GameManagerScript.gameState = GameState.WIN;
+            } else if (this.round > this.numberRoundMaximum) {
+                GameManagerScript.gameState = GameState.LOSTROUND;
             }
         }
 	}

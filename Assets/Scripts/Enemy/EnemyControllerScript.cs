@@ -25,7 +25,7 @@ public class EnemyControllerScript : MonoBehaviour
         this.PositionExit = GameObject.FindGameObjectWithTag("Exit").transform;
 
         Vector3 maxSize = (this.PositionExit.position - this.transform.position) / (this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum);
-        for (int i = 0; i < this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum; ++i)
+        for (int i = 0; i < this.squad.nbActionsPerTurn * this.GameManager.numberRoundMaximum - 1; ++i)
         {
             Vector3 pos = this.transform.position + maxSize * (i + 1);
             pos.x += Random.Range(-this.SizeRadiusWalk, this.SizeRadiusWalk);
@@ -33,6 +33,9 @@ public class EnemyControllerScript : MonoBehaviour
 
             this.PositionToMove.Add(pos);
         }
+        this.PositionToMove.Add(this.PositionExit.position);
+
+        this.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -58,7 +61,6 @@ public class EnemyControllerScript : MonoBehaviour
                         GameObject go = Instantiate(this.BulletPrefab, this.transform.position, Quaternion.identity) as GameObject;
                         go.transform.LookAt(this.target.transform);
                         this.previousTime = Time.time;
-                        Debug.Log("Shoot Enemy");
                     }
                 }
                 else
@@ -137,5 +139,12 @@ public class EnemyControllerScript : MonoBehaviour
             }
             this.PolicemanVisible.Remove(collider.GetComponent<PolicemanScript>());
         }
+    }
+
+    // Collision
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Exit")
+            GameManagerScript.gameState = GameManagerScript.GameState.LOSTROUND;
     }
 }

@@ -127,7 +127,7 @@ public class SquadManagerScript : MonoBehaviour {
 	{	
 		for(int i = 0; i < listOfCops.Length; ++i)
 		{
-			if(listOfCops[i].GetComponent<NavMeshScript>().hasFinishedItsPath() == false)
+            if (listOfCops[i].GetComponent<PolicemanScript>().Pv > 0 && listOfCops[i].GetComponent<NavMeshScript>().hasFinishedItsPath() == false)
 				return false;
 		}
 		

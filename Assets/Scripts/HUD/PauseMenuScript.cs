@@ -124,7 +124,7 @@ public class PauseMenuScript : MonoBehaviour
 
     void MainMenu()
     {
-        Application.LoadLevel("Crime_Scene_Street_Jonathan");
+        Application.LoadLevel("MainMenu");
     }
 	
 	void QualityControl() {

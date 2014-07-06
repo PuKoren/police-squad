@@ -35,7 +35,6 @@ public class BulletScript : MonoBehaviour
         //}
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("Collision Enemy");
             collision.gameObject.GetComponent<EnemyControllerScript>().Touch(this.Damage);
             Destroy(this.gameObject);
         }
